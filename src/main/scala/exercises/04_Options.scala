@@ -4,13 +4,13 @@ import sys.error
 
 /**
  * In this exercise, we'll practice using `Option`s, which are a nicer
- * alternative to `null`s. (If you're familiar with Haskell's `Maybe`, 
+ * alternative to `null`s. (If you're familiar with Haskell's `Maybe`,
  * that's what we're talking about.)
- * 
+ *
  * For more information on `Option`s, see:
  * 	 http://danielwestheide.com/blog/2012/12/19/the-neophytes-guide-to-scala-part-5-the-option-type.html
  * 	 http://blog.originate.com/blog/2014/06/15/idiomatic-scala-your-options-do-not-match/
- * 
+ *
  * These exercises are taken from ScalaLabs:
  * 		https://github.com/scala-labs/scala-labs/blob/master/labs/src/main/scala/org/scalalabs/basic/lab03/OptionExercise.scala
  */
@@ -25,7 +25,7 @@ object Options {
    * -- the room is not available (Some("locked"))
    */
   val rooms = Map(1 -> Some("12"), 2 -> None, 3 -> Some("locked"), 4 -> Some("14"), 5 -> Some("8"), 6 -> Some("locked"))
-  
+
   /**
    * Implement the room state method that should return the state of a room as a String as follows:
    * - filled: return total people:     E.g: Some("12") is "12"
@@ -34,7 +34,15 @@ object Options {
    * - does not exist: 					"not existing"
    */
   def roomState(rooms: Map[Int, Option[String]], room: Int): String = {
-    error("Fix me")
+  	if (!rooms.contains(room)) "not existing" else rooms.getOrElse(room, "empty")
+  }
+
+ /**
+  * Helper Function that computes a room's occupancy
+  * to convert a possible numeric String (e.g. Some("12")) to an Integer
+  */
+  def peopleInRoom(room: Option[String]): Int = {
+	if (room.isEmpty()) 0 else try {room.getOrElse("0").toInt} catch {case e: NumberFormatException => 0}
   }
 
   /**
@@ -44,6 +52,6 @@ object Options {
    * to convert a possible numeric String (e.g. Some("12")) to an integer
    */
   def totalPeopleInRooms(rooms: Map[Int, Option[String]]): Int = {
-    error("Fix me")
+	rooms.foldLeft(0)((acc, kv) => acc + peopleInRoom(kv._2))
   }
 }
