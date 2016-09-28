@@ -34,7 +34,7 @@ object Options {
    * - does not exist: 					"not existing"
    */
   def roomState(rooms: Map[Int, Option[String]], room: Int): String = {
-  	if (!rooms.contains(room)) "not existing" else rooms.getOrElse(room, "empty")
+  	if (!rooms.contains(room)) "not existing" else rooms.getOrElse(room, Some("empty")).getOrElse("")
   }
 
  /**
@@ -42,7 +42,7 @@ object Options {
   * to convert a possible numeric String (e.g. Some("12")) to an Integer
   */
   def peopleInRoom(room: Option[String]): Int = {
-	if (room.isEmpty()) 0 else try {room.getOrElse("0").toInt} catch {case e: NumberFormatException => 0}
+	if (room.isEmpty) 0 else try {room.getOrElse("0").toInt} catch {case e: NumberFormatException => 0}
   }
 
   /**
