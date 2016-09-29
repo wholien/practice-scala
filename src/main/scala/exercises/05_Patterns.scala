@@ -63,6 +63,8 @@ object PatternMatching {
     case s:String => "A string with length " + s.length()
     case i:Int if i > 0  => "A positive integer"
     case p:Person => "A person with name: " + p.name
+    case s:Seq[Any] if s.length > 10 => "Seq with more than 10 elements"
+    case s:Seq[Any] if s.length > 2 => "first: " + s.head + ", second: " + s.tail.head + ", rest: " + s.tail.tail
     case null => "A null value"
     case _ => "Some Scala class"
   }
@@ -71,8 +73,9 @@ object PatternMatching {
    * If the person is older than 30, return an `Option` with the person's name;
    *    otherwise return `None`
    */
-  def older(p: Person): Option[String] = {
-    error("fix me")
+  def older(p: Person): Option[String] = p.age match {
+    case x if x > 30 => Option(p.name)
+    case _ => None
   }
 }
 
